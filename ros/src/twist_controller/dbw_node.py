@@ -31,7 +31,8 @@ that we have created in the `__init__` function.
 
 '''
 
-UPDATE_RATE= 50
+#UPDATE_RATE= 50
+UPDATE_RATE= 10
 
 class DBWNode(object):
     def __init__(self):

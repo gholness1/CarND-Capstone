@@ -6,6 +6,8 @@ from lowpass import LowPassFilter
 GAS_DENSITY = 2.858
 ONE_MPH = 0.44704
 
+BRAKING_FORCE= 700
+#BRAKING_FORCE= 400
 
 class Controller(object):
     def __init__(self, vehicle_mass, fuel_capacity, brake_deadband, decel_limit,
@@ -13,9 +15,9 @@ class Controller(object):
         # TODO: Implement
         self.yaw_controller= YawController(wheel_base, steer_ratio, 0.1, max_lat_accel, max_steer_angle)
 
-        kp= 6.2  # 0.3
-	ki= 0.005  #0.1
-	kd= 1.0  #0.1
+        kp= 6.2  # 0.3,  6.2
+	ki= 0.005  #0.1, 0.005
+	kd= 6.0  #0.1 , 1.0
 	mn= 0.0   #Minimum throttle value
 	mx= 0.2   #Maximum throttle value
         self.throttle_controller= PID(kp, ki, kd, mn, mx)
@@ -64,8 +66,8 @@ class Controller(object):
 
 	if linear_vel== 0.0 and current_vel < 0.1:
 	    throttle= 0
-	    brake= 400  #N*m- to hold car in place if we are stopped at a light. Acceleration ~ 1m/s^2
-                        #Note instructions say 700 N*m needed for Carla car
+	    brake= BRAKING_FORCE #N*m- to hold car in place if we are stopped at a light. Acceleration ~ 1m/s^2
+                                 #Note instructions say 700 N*m needed for Carla car
 
         elif throttle < 0.1 and vel_error < 0:
 	    throttle = 0

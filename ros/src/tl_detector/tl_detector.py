@@ -15,6 +15,8 @@ import yaml
 
 STATE_COUNT_THRESHOLD = 3
 
+USE_IMAGE_CLASSIFIER= True
+
 class TLDetector(object):
     def __init__(self):
         rospy.init_node('tl_detector')
@@ -43,7 +45,7 @@ class TLDetector(object):
 	# Walkthrough recomments using /image_raw so that you have full
 	# infomration when using classifier to detect traffic lights.
 	##
-        sub6 = rospy.Subscriber('/image_color', Image, self.image_cb)
+        sub6 = rospy.Subscriber('/image_color', Image, self.image_cb, queue_size=4)
 
         config_string = rospy.get_param("/traffic_light_config")
         self.config = yaml.load(config_string)
@@ -168,18 +170,25 @@ class TLDetector(object):
 	##
 
 	## BEGIN comment out GFH
-        #if(not self.has_image):
-        #    self.prev_light_loc = None
-        #    return False
-        #
-        #cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
-        #
-        ##Get classification
-        #return self.light_classifier.get_classification(cv_image)
-        #
-	## END comment out GFH
+  
+	if (USE_IMAGE_CLASSIFIER):
 
-	return light.state
+            if(not self.has_image):
+                self.prev_light_loc = None
+                return False
+        
+            cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+       
+            ##Get classification
+            return self.light_classifier.get_classification(cv_image)
+       
+       ## END comment out GFH
+
+        else:
+            return light.state
+
+        pass
+
 
     def process_traffic_lights(self):
         """Finds closest visible traffic light, if one exists, and determines its
