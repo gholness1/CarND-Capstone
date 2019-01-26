@@ -15,14 +15,16 @@ class Controller(object):
         # TODO: Implement
         self.yaw_controller= YawController(wheel_base, steer_ratio, 0.1, max_lat_accel, max_steer_angle)
 
-        kp= 6.2  # 0.3,  6.2
-	ki= 0.005  #0.1, 0.005
-	kd= 6.0  #0.1 , 1.0
+        kp= 8.5  # 0.3,  6.2,  6.2, 0.5
+	ki= 0.005  #0.1, 0.005, 0.005, 0.0001
+	kd= 6.0  #0.1 , 1.0, 6.0, 0.15
 	mn= 0.0   #Minimum throttle value
-	mx= 0.2   #Maximum throttle value
+	mx= 1.0   #Maximum throttle value, 0.3, 0.5
+
         self.throttle_controller= PID(kp, ki, kd, mn, mx)
 
 	tau= 0.5  # 1/(2pi*tau) = cutoff frequency
+	#tau= 0.03  # 1/(2pi*tau) = cutoff frequency, 0.05 0.03 0.2
 	ts= 0.02  # Sample time
 	self.vel_lpf = LowPassFilter(tau, ts)
 
