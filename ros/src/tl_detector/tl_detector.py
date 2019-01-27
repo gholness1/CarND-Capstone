@@ -17,7 +17,7 @@ STATE_COUNT_THRESHOLD = 3
 
 USE_IMAGE_CLASSIFIER= True
 
-IMAGE_SKIP= 4
+IMAGE_SKIP= 3
 
 class TLDetector(object):
     def __init__(self):
@@ -49,7 +49,7 @@ class TLDetector(object):
 	# Walkthrough recomments using /image_raw so that you have full
 	# infomration when using classifier to detect traffic lights.
 	##
-        sub6 = rospy.Subscriber('/image_color', Image, self.image_cb, queue_size=10) #queue_size=4
+        sub6 = rospy.Subscriber('/image_color', Image, self.image_cb, queue_size=10,tcp_nodelay=True) #queue_size=4
 
         config_string = rospy.get_param("/traffic_light_config")
         self.config = yaml.load(config_string)

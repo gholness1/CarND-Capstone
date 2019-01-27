@@ -19,7 +19,7 @@ class Controller(object):
 	ki= 0.005  #0.1, 0.005, 0.005, 0.0001
 	kd= 6.0  #0.1 , 1.0, 6.0, 0.15
 	mn= 0.0   #Minimum throttle value
-	mx= 1.0   #Maximum throttle value, 0.3, 0.5
+	mx= 0.8   #Maximum throttle value, 0.3, 0.5
 
         self.throttle_controller= PID(kp, ki, kd, mn, mx)
 

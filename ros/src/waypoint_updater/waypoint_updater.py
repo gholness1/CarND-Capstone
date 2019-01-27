@@ -24,7 +24,7 @@ TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
 #LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number
-LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number
+LOOKAHEAD_WPS = 76 # Number of waypoints we will publish. You can change this number
 
 MAX_DECEL= 0.5
 
@@ -36,7 +36,7 @@ class WaypointUpdater(object):
     def __init__(self):
         rospy.init_node('waypoint_updater')
 
-        rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
+        rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb,tcp_nodelay=True)
         rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
 	rospy.Subscriber('/traffic_waypoint', Int32, self.traffic_cb)
 
@@ -151,7 +151,9 @@ class WaypointUpdater(object):
 	   # the stop_index
 	   ##
            dist= self.distance(waypoints, i, stop_idx)
+
 	   vel= math.sqrt(2* MAX_DECEL *dist)  #make this linear or more smooth
+
 	   if vel < 1.0:
 	      vel= 0.0
 
